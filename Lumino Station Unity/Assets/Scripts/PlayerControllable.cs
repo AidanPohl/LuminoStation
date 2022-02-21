@@ -2,8 +2,8 @@
  * Created By: Aidan Pohl
  * Created: 02/20/2022
  * 
- * Last Edited By: N/A
- * Last Edited: N/A
+ * Last Edited By: Aidan Pohl
+ * Last Edited: 02/21/2022
  * 
  * Description: Player Controller script
  * */
@@ -17,6 +17,11 @@ public class PlayerControllable : MonoBehaviour
     public bool interactable;
     private GameObject indicator;
     public GameObject indicatorPrefab;
+    public GameObject movingObject;
+    private float rotate = 0;
+    private float shift = 0;
+    public bool rotatable, shiftable;
+    public float rotScale = 50f;
     // Start is called before the first frame update
     void Start()
     {
@@ -32,12 +37,10 @@ public class PlayerControllable : MonoBehaviour
 
     void OnMouseEnter (){
         hoverOver = true;
-        Debug.Log("Mouse entered");
     }
 
     void OnMouseExit(){
         hoverOver = false;
-        Debug.Log("Mouse left");
     }
 
     public void SetHalo(bool halo){
@@ -53,5 +56,14 @@ public class PlayerControllable : MonoBehaviour
             indicator.SetActive(false);
             gameController.GetComponent<PlayerControls>().SelectedObject(null);
         }
+    }
+
+    public void SetMovement (float horz = 0f, float vert = 0f){
+        rotate = vert;
+        shift  = horz;
+    }
+
+    void FixedUpdate(){
+        gameObject.transform.RotateAround(transform.position, Vector3.forward, rotate*rotScale*Time.deltaTime);
     }
 }

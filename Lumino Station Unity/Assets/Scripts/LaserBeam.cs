@@ -80,7 +80,6 @@ public class LaserBeam : MonoBehaviour
     //adds a point onto the end of the beam recursively until length is maxed out
     public void BeamFire(int numPoint){
         Ray currRay = rays[numPoint-1];
-        Debug.Log("currRay position "+ currRay.origin);
         Ray nextRay = new Ray();
         float length = rLengths[numPoint-1];
         RaycastHit hit = new RaycastHit();
@@ -96,8 +95,6 @@ public class LaserBeam : MonoBehaviour
             nextRay.origin += currRay.direction*length;
             length = 0;
         }//if else
-        Debug.DrawLine(currRay.origin,nextRay.origin);
-        Debug.Log(numPoint + " "+collide);
         rays.Add(nextRay);
         //Adds next point to beam
         beam.positionCount++;

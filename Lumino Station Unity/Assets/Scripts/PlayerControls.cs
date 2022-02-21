@@ -2,8 +2,8 @@
  * Created By: Aidan Pohl
  * Created: 02/20/2022
  * 
- * Last Edited By: N/A
- * Last Edited: N/A
+ * Last Edited By: Aidan Pohl
+ * Last Edited: 02/21/2022
  * 
  * Description: Player Controller script
  * */
@@ -14,6 +14,7 @@ using UnityEngine;
 public class PlayerControls : MonoBehaviour
 {   
     public GameObject selectedObject;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -22,9 +23,10 @@ public class PlayerControls : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {   Vector3 mousePos2D = Input.mousePosition;
-        mousePos2D.z = -Camera.main.transform.position.z;
-        Vector3 mousePos3D = Camera.main.ScreenToWorldPoint( mousePos2D );
+    {   
+        if(selectedObject != null){
+        selectedObject.GetComponent<PlayerControllable>().SetMovement(Input.GetAxis("Horizontal"),Input.GetAxis("Vertical"));
+        }
     }
 
     public void SelectedObject (GameObject obj){
@@ -33,11 +35,13 @@ public class PlayerControls : MonoBehaviour
         }
         if(obj!= null &&selectedObject != obj ){
             selectedObject = obj;
-            obj.GetComponent<PlayerControllable>().SetHalo(true);}
+            selectedObject.GetComponent<PlayerControllable>().SetHalo(true);
+            }
         else if(obj==null && selectedObject != null){
             selectedObject.GetComponent<PlayerControllable>().SetHalo(false);
             selectedObject = null;
         }
     }
     
+
 }

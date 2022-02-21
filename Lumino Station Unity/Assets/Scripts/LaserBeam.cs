@@ -2,8 +2,8 @@
  * Created By: Aidan Pohl
  * Created: 02/19/2022
  * 
- * Last Edited By: N/A
- * Last Edited: N/A
+ * Last Edited By: Aidan Pohl
+ * Last Edited: 02/22/2022
  * 
  * Description: Laser Beam propogation
  *
@@ -19,7 +19,6 @@ public class LaserBeam : MonoBehaviour
     [Header("Set In Inspector")]
     public float beamStrength = 100f; //Total length of beam
     public Vector3 localOffset = (Vector3.zero); //0 by default
-    public Vector3 localAngle = (Vector3.zero);  //0 by default
     public Material beamMaterial;
     public float beamWidth =.1f;
     public GameObject lVGOPrefab;
@@ -28,10 +27,9 @@ public class LaserBeam : MonoBehaviour
     public LineRenderer beam;      //the visual component of the beam
     public List<float> rLengths;   //remaining lengths after each vertex
     public List<Ray> rays;
-    public List<RaycastHit> hits;  //hit of each raycast
+    //public List<RaycastHit> hits;  //hit of each raycast
     public List<GameObject> vertexes;
-    private 
-
+    private LayerMask mask;
 
     //creates a new Beam gameobject with line renderer
     public void MakeBeam(){
@@ -40,7 +38,6 @@ public class LaserBeam : MonoBehaviour
         beamGO.tag = "Laser";
         beamGO.transform.SetParent(this.transform);
         beamGO.transform.localPosition = localOffset;
-        beamGO.transform.localRotation = Quaternion.Euler(localAngle);
         
         //creates the linerenderer for the visible laser beam
         beam = beamGO.AddComponent<LineRenderer>() as LineRenderer;
@@ -51,9 +48,9 @@ public class LaserBeam : MonoBehaviour
         rLengths = new List<float>();
         rLengths.Add(beamStrength); //first collision at position 1
         rays = new List<Ray>();
-        rays.Add(new Ray(localOffset,transform.TransformDirection(Vector3.forward)+localAngle)); //first collision at position 1
-        hits = new List<RaycastHit>(); //first collision at position 0
-        vertexes = new List<GameObject>();
+        rays.Add(new Ray(beamGO.transform.position,transform.TransformDirection(Vector3.forward))); //first collision at position 1
+        //hits = new List<RaycastHit>(); //first collision at position 0
+        vertexes = new List<GameObject>();//first collision as position 0
 
         ShootBeam();
     }
@@ -63,9 +60,7 @@ public class LaserBeam : MonoBehaviour
     public void ShootBeam(){
         beam.positionCount=1;
         rLengths[0] = beamStrength;
-        Ray firstRay = rays[0];
-        firstRay.direction =transform.TransformDirection(Vector3.forward)+localAngle;
-        rays[0] = firstRay;
+        rays[0] = new Ray(beamGO.transform.position,transform.TransformDirection(Vector3.forward));
         beam.SetPosition(0,beamGO.transform.position);
 
         ShootBeam(1);
@@ -75,11 +70,7 @@ public class LaserBeam : MonoBehaviour
         beam.positionCount=startPos; //Starts beam at position startPos
         rLengths = new List<float>(rLengths.GetRange(0,startPos));
         rays = new List<Ray>(rays.GetRange(0,startPos));
-        for (int i = startPos-1; i<vertexes.Count;i++){
-            Destroy(vertexes[i]);
-        }
-        vertexes = new List<GameObject>(vertexes.GetRange(0,startPos-1));
-        hits = new List<RaycastHit>(hits.GetRange(0,startPos-1));
+        //hits = new List<RaycastHit>(hits.GetRange(0,startPos-1));
 
         BeamFire(startPos);
         beam.enabled = true;
@@ -89,15 +80,15 @@ public class LaserBeam : MonoBehaviour
     //adds a point onto the end of the beam recursively until length is maxed out
     public void BeamFire(int numPoint){
         Ray currRay = rays[numPoint-1];
+        Debug.Log("currRay position "+ currRay.origin);
         Ray nextRay = new Ray();
         float length = rLengths[numPoint-1];
         RaycastHit hit = new RaycastHit();
         
         //Checks if the Raycast collides with something
-        LayerMask layerMask = -1;
-        bool collide = Physics.Raycast(currRay.origin, currRay.direction,out hit,length, layerMask,QueryTriggerInteraction.Ignore);
+        bool collide = Physics.Raycast(currRay.origin, currRay.direction, out hit, length, mask, QueryTriggerInteraction.Ignore);
         if(collide){//collides
-            hits.Add(hit);
+            //hits.Add(hit);
             nextRay.origin = hit.point;
             length -= hit.distance;
             nextRay.direction = Vector3.Reflect(currRay.direction, hit.normal);
@@ -105,14 +96,22 @@ public class LaserBeam : MonoBehaviour
             nextRay.origin += currRay.direction*length;
             length = 0;
         }//if else
+        Debug.DrawLine(currRay.origin,nextRay.origin);
+        Debug.Log(numPoint + " "+collide);
         rays.Add(nextRay);
         //Adds next point to beam
         beam.positionCount++;
         beam.SetPosition(numPoint,nextRay.origin);
         rLengths.Add(length);
-        vertexes.Add(Instantiate(lVGOPrefab, nextRay.origin, Quaternion.identity, beamGO.transform));
+        if(numPoint < vertexes.Count){
+            vertexes[numPoint-1].transform.position = nextRay.origin;
+        }else{
+            GameObject vertex = Instantiate(lVGOPrefab, nextRay.origin, Quaternion.identity, beamGO.transform);
+            vertex.tag = "Laser";
+            vertexes.Add(vertex);
+        }
         if(collide && CheckCollisionType(hit) == "Reflective"){ //check if surface is reflective
-            hits.Add(hit);
+            
             BeamFire(numPoint+1);//Recurses ShootBeam at next point
         }//end if(CheckCollisionType(hit) == "Reflective")
     }//end BeamFire(int numPoint)
@@ -135,12 +134,10 @@ public class LaserBeam : MonoBehaviour
 
 
     public void Awake(){
+        mask = ~LayerMask.GetMask("Ignore Raycast");
         MakeBeam();
     }
     public void Update(){
-        for( int i =0; i< hits.Count; i++){
-            if(Physics.Raycast(rays[i+1].origin, rays{i+]}.direction,out hit,rLength[i], layerMask,QueryTriggerInteraction.Ignore);
-        }
         ShootBeam();
     }
 }

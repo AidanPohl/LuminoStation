@@ -2,8 +2,8 @@
  * Created By: Aidan Pohl
  * Created: 02/19/2022
  * 
- * Last Edited By: N/A
- * Last Edited: N/A
+ * Last Edited By: Aidan Pohl
+ * Last Edited: 02/20/2022
  * 
  * Description: Laser Beam Detection
  *
@@ -20,7 +20,6 @@ public class LaserDetection : MonoBehaviour
     public Material unlitMat;
     public Material litMat;
     public Material shadowMat;
-    public bool interactable; //player can manip while lit
     [Header("Set Dynamically")]
     public bool laserLit = false;
     public bool wasLit = false;
@@ -30,6 +29,8 @@ public class LaserDetection : MonoBehaviour
     void Start()
     { 
         mesh = gameObject.GetComponent(typeof(MeshRenderer)) as MeshRenderer;
+        mesh.material = unlitMat;
+        
     }
 
     // Update is called once per frame
@@ -37,16 +38,18 @@ public class LaserDetection : MonoBehaviour
     {
     }
 
-    void OnCollisionEnter(Collision other){
+    void OnTriggerEnter(Collider other){
         if(other.gameObject.tag == "Laser"){
             laserLit = true;
             wasLit = true;
+            gameObject.GetComponent<PlayerControllable>().interactable = true;
             UpdateMat();
         }
     }
 
-    void OnCollisionExit(Collision other){
+    void OnTriggerExit(Collider other){
         if (other.gameObject.tag == "Laser"){
+            gameObject.GetComponent<PlayerControllable>().interactable = false;
             laserLit = false;
             UpdateMat();
         }

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Reflective
   - Laser
+  - Rotatable
   layers:
   - Default
   - TransparentFX

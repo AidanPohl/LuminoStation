@@ -17,7 +17,7 @@ public class PlayerControllable : MonoBehaviour
     public bool interactable;
     private GameObject indicator;
     public GameObject indicatorPrefab;
-    public GameObject movingObject;
+    public GameObject movingObject  ;
     private float rotate = 0;
     private float shift = 0;
     public bool rotatable, shiftable;
@@ -25,14 +25,14 @@ public class PlayerControllable : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        gameController = GameObject.Find("GameController");
+        gameController = GameObject.Find("_GameManager");
         indicator = Instantiate(indicatorPrefab, gameObject.transform.position, Quaternion.identity, gameObject.transform);
         indicator.SetActive(false);
     }
 
     void OnMouseDown(){
-        if (hoverOver && interactable)
-        gameController.GetComponent<PlayerControls>().SelectedObject(gameObject);
+        //if (hoverOver && interactable)
+        //gameController.GetComponent<PlayerControls>().SelectedObject(gameObject);
     }
 
     void OnMouseEnter (){

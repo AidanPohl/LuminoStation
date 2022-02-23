@@ -25,7 +25,10 @@ public class PlayerControls : MonoBehaviour
     void Update()
     {   
         if(selectedObject != null){
-        selectedObject.GetComponent<PlayerControllable>().SetMovement(Input.GetAxis("Horizontal"),Input.GetAxis("Vertical"));
+            Vector3 mouseScreen = Input.mousePosition;
+            mouseScreen.z = -Camera.main.transform.position.z;
+            Vector3 mouseWorld = Camera.main.ScreenToWorldPoint(mouseScreen);
+            selectedObject.transform.LookAt(mouseWorld);
         }
     }
 

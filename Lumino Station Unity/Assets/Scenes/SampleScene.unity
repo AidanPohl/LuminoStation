@@ -418,7 +418,7 @@ Camera:
   near clip plane: 0.3
   far clip plane: 50
   field of view: 60
-  orthographic: 0
+  orthographic: 1
   orthographic size: 5
   m_Depth: -1
   m_CullingMask:
@@ -459,6 +459,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1530209770}
   - component: {fileID: 1530209769}
+  - component: {fileID: 1530209771}
   m_Layer: 0
   m_Name: _GameManager
   m_TagString: GameController
@@ -493,6 +494,28 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1530209771
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1530209768}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5ab2b1f89d815a4f80ddb8d2e59908f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameTitle: Lumino Station
+  gameCredits: 'Made by: Aidan Pohl'
+  copyrightDate: Copyright 2022
+  isTimed: 0
+  timeLimit: 0
+  startString: 
+  endScene: 
+  gameLevels: []
+  nextLevel: 0
+  gameState: 0
 --- !u!1 &1579826827
 GameObject:
   m_ObjectHideFlags: 0

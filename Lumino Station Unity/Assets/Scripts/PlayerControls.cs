@@ -23,8 +23,10 @@ public class PlayerControls : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {   
-        if(selectedObject != null){
+    {      
+        if (Input.GetMouseButtonDown(1)){//right click deselects the object
+            SelectedObject(null);
+        }else if(selectedObject != null){
             Vector3 mouseScreen = Input.mousePosition;
             mouseScreen.z = -Camera.main.transform.position.z;
             Vector3 mouseWorld = Camera.main.ScreenToWorldPoint(mouseScreen);
@@ -45,6 +47,8 @@ public class PlayerControls : MonoBehaviour
             selectedObject = null;
         }
     }
+
+
     
 
 }

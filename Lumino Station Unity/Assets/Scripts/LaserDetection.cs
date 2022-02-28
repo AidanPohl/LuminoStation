@@ -20,6 +20,7 @@ public class LaserDetection : MonoBehaviour
     public Material unlitMat;
     public Material litMat;
     public Material shadowMat;
+    public bool selectable;
     [Header("Set Dynamically")]
     public bool laserLit = false;
     public bool wasLit = false;
@@ -42,14 +43,18 @@ public class LaserDetection : MonoBehaviour
         if(other.gameObject.tag == "Laser"){
             laserLit = true;
             wasLit = true;
+            if(selectable){
             gameObject.GetComponent<PlayerControllable>().interactable = true;
+            }
             UpdateMat();
         }
     }
 
     void OnTriggerExit(Collider other){
         if (other.gameObject.tag == "Laser"){
+            if(selectable){
             gameObject.GetComponent<PlayerControllable>().interactable = false;
+            }
             laserLit = false;
             UpdateMat();
         }

@@ -31,8 +31,8 @@ public class PlayerControllable : MonoBehaviour
     }
 
     void OnMouseDown(){
-        //if (hoverOver && interactable)
-        //gameController.GetComponent<PlayerControls>().SelectedObject(gameObject);
+        if (hoverOver && interactable)
+        gameController.GetComponent<PlayerControls>().SelectedObject(gameObject);
     }
 
     void OnMouseEnter (){

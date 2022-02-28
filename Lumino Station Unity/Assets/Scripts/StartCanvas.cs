@@ -10,7 +10,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnitiyEngine.UI; //Reference to user interface
+using UnityEngine.UI; //Reference to user interface
 
 public class StartCanvas : MonoBehaviour
 {   
@@ -20,7 +20,7 @@ public class StartCanvas : MonoBehaviour
     [Header("Canvas Settings")]
     public Text titleTextBox;
     public Text creditsTextBox;
-    public Text copyrightTextBox
+    public Text copyrightTextBox;
     // Start is called before the first frame update
     void Start()
     {

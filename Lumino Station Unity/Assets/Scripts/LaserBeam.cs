@@ -83,7 +83,7 @@ public class LaserBeam : MonoBehaviour
         Ray nextRay = new Ray();
         float length = rLengths[numPoint-1];
         RaycastHit hit = new RaycastHit();
-        
+        Debug.DrawRay(currRay.origin,currRay.direction, Color.white);
         //Checks if the Raycast collides with something
         bool collide = Physics.Raycast(currRay.origin, currRay.direction, out hit, length, mask, QueryTriggerInteraction.Ignore);
         if(collide){//collides
@@ -92,9 +92,10 @@ public class LaserBeam : MonoBehaviour
             length -= hit.distance;
             nextRay.direction = Vector3.Reflect(currRay.direction, hit.normal);
         }else{//Does not collide
-            nextRay.origin += currRay.direction*length;
+            nextRay.origin = currRay.origin + (currRay.direction*length);
             length = 0;
         }//if else
+        
         rays.Add(nextRay);
         //Adds next point to beam
         beam.positionCount++;

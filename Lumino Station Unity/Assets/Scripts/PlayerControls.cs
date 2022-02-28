@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerControls : MonoBehaviour
-{   
+{   public float rotateSpeed = 1;
     public GameObject selectedObject;
 
     // Start is called before the first frame update
@@ -23,14 +23,20 @@ public class PlayerControls : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {      
-        if (Input.GetMouseButtonDown(1)){//right click deselects the object
-            SelectedObject(null);
-        }else if(selectedObject != null){
-            Vector3 mouseScreen = Input.mousePosition;
-            mouseScreen.z = -Camera.main.transform.position.z;
-            Vector3 mouseWorld = Camera.main.ScreenToWorldPoint(mouseScreen);
-            selectedObject.transform.LookAt(mouseWorld);
+    {     if (GameManager.gameState == GameManager.gameStates.Playing)
+        {
+            if (Input.GetMouseButtonDown(1))
+            {//right click deselects the object
+                SelectedObject(null);
+            }
+            else if (selectedObject != null)
+            {
+                Vector3 mouseScreen = Input.mousePosition;
+                mouseScreen.z = -Camera.main.transform.position.z;
+                Vector3 mouseWorld = Camera.main.ScreenToWorldPoint(mouseScreen);
+                Vector3 mouseDelay = Vector3.Lerp(selectedObject.transform.position + selectedObject.transform.forward,mouseWorld,rotateSpeed);
+                selectedObject.transform.LookAt(mouseDelay);
+            }
         }
     }
 

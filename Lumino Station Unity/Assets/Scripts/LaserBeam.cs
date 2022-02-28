@@ -20,6 +20,7 @@ public class LaserBeam : MonoBehaviour
     public float beamStrength = 100f; //Total length of beam
     public Vector3 localOffset = (Vector3.zero); //0 by default
     public Material beamMaterial;
+    public Material beamMaterialWin;
     public float beamWidth =.1f;
     public GameObject lVGOPrefab;
     [Header("Set Dynamically")]
@@ -136,6 +137,37 @@ public class LaserBeam : MonoBehaviour
         MakeBeam();
     }
     public void Update(){
-        ShootBeam();
+        switch (GameManager.gameState)
+        {
+            case (GameManager.gameStates.Playing):
+                ShootBeam();
+                break;
+            case (GameManager.gameStates.Idle):
+                break;
+            case (GameManager.gameStates.LevelWin):
+                WinLazer();
+                break;
+        }
+    }
+
+    public void WinLazer()
+    {
+        GameObject beamWinGO = new GameObject("Laser");
+        beamWinGO.tag = "Laser";
+        beamWinGO.transform.SetParent(this.transform);
+        beamWinGO.transform.localPosition = localOffset;
+
+        //creates the linerenderer for the visible laser beam
+        LineRenderer beamWin = beamWinGO.AddComponent<LineRenderer>() as LineRenderer;
+        beamWin.material = beamMaterialWin;
+        beamWin.startWidth = beamWidth*2;
+        WinLazerShoot(0,beamWin);
+    }
+
+    private void WinLazerShoot(int currentRay, LineRenderer beam)
+    {
+        beam.positionCount++;
+        
+
     }
 }

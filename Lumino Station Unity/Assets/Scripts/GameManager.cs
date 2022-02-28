@@ -58,8 +58,8 @@ private int gameLevelsCount;
 
 public static int currentScene = 0; //the current level id
 
-[HideInInspector] public enum gameStates {Idle, Playing, StartScreen,LevelWin,GameWin};//enum of game states
-[HideInInspector] public gameStates gameState = gameStates.Idle; //curent gamestate
+[HideInInspector] public enum gameStates {Idle,Playing,StartScreen,LevelWin,GameWin};//enum of game states
+[HideInInspector] public static gameStates gameState = gameStates.Idle; //curent gamestate
 
 private float currentTime;
 private bool gameStarted = false;
@@ -72,6 +72,7 @@ void Awake(){
 
     currentScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex;
     Debug.Log(currentScene);
+        gameState = gameStates.Playing;
 }//end Awake()
 
 void Update(){
@@ -82,6 +83,10 @@ void Update(){
     //if we are playing the game
     if(gameState == gameStates.Playing){
 
+    } else if (gameState == gameStates.LevelWin)
+    {
+            Invoke("NextLevel", 5);
+            gameState = gameStates.Idle;
     }
 }
 public void StartGame(){
@@ -102,11 +107,16 @@ public void GameEnd(){
 }
 
 public void NextLevel(){
+        Debug.Log("level complete");
     nextLevel = false;
     if(gameLevelsCount <= gameLevels.Length){
         gameLevelsCount++;
         SceneManager.LoadScene(gameLevels[gameLevelsCount]);
     }
 }
+    public void EndLevel()
+    {
+        //GameObject.Find("LazerPointer").GetComponent<LaserBeam>().GreenLaser();
+    }
 
 }

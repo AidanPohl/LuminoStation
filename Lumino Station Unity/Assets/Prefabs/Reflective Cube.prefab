@@ -30,7 +30,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3326414685694208844}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.11, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -113,6 +113,7 @@ MonoBehaviour:
   unlitMat: {fileID: 2100000, guid: 170a6b72bff3a2e448bf8276dc4b5e40, type: 2}
   litMat: {fileID: 2100000, guid: a3446521a08d029449c8b0fd26b7d33e, type: 2}
   shadowMat: {fileID: 2100000, guid: 517aa603fbbe78b45838e4a2e727f069, type: 2}
+  selectable: 1
   laserLit: 0
   wasLit: 0
 --- !u!54 &3326414685694208853
@@ -148,5 +149,3 @@ MonoBehaviour:
   indicatorPrefab: {fileID: 1123504377163381887, guid: 7d98ffff73d0e424d8c77ad4a98107e9, type: 3}
   movingObject: {fileID: 0}
   rotatable: 0
-  shiftable: 0
-  rotScale: 10

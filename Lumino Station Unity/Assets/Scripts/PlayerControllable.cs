@@ -18,10 +18,7 @@ public class PlayerControllable : MonoBehaviour
     private GameObject indicator;
     public GameObject indicatorPrefab;
     public GameObject movingObject  ;
-    private float rotate = 0;
-    private float shift = 0;
-    public bool rotatable, shiftable;
-    public float rotScale = 50f;
+    public bool rotatable;
     // Start is called before the first frame update
     void Start()
     {
@@ -58,12 +55,4 @@ public class PlayerControllable : MonoBehaviour
         }
     }
 
-    public void SetMovement (float horz = 0f, float vert = 0f){
-        rotate = vert;
-        shift  = horz;
-    }
-
-    void FixedUpdate(){
-        gameObject.transform.RotateAround(transform.position, Vector3.forward, rotate*rotScale*Time.deltaTime);
-    }
 }

@@ -4,5 +4,26 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/Title Screen.unity
+    guid: ad5b7d27b25d6fc48b2c8c6945bb3089
+  - enabled: 1
+    path: Assets/Scenes/Level 0 - Rotate.unity
+    guid: 3599674056243934eafcc692a1320a47
+  - enabled: 1
+    path: Assets/Scenes/Level 1 - Mirror.unity
+    guid: 1ec328252390bb841a301410e9ba193a
+  - enabled: 1
+    path: Assets/Scenes/Level 2 - Pivot.unity
+    guid: 8adfb4e6f4b2afa4bbf1a87cbceae236
+  - enabled: 1
+    path: Assets/Scenes/Level 3 - Angles.unity
+    guid: 11af4ac3ad4772c45b6e04215b7f9351
+  - enabled: 1
+    path: Assets/Scenes/Level 4 - Rebound.unity
+    guid: e6245a4173491aa42a558cba4255aa8f
+  - enabled: 1
+    path: Assets/Scenes/Level 5 - Roundabout.unity
+    guid: a75d6793916c5bd44ad1b32a7df522d1
   m_configObjects: {}

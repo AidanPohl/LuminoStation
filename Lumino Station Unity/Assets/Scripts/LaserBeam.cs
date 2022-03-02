@@ -3,7 +3,7 @@
  * Created: 02/19/2022
  * 
  * Last Edited By: Aidan Pohl
- * Last Edited: 02/22/2022
+ * Last Edited: 3/02/2022
  * 
  * Description: Laser Beam propogation
  *
@@ -28,7 +28,6 @@ public class LaserBeam : MonoBehaviour
     public LineRenderer beam;      //the visual component of the beam
     public List<float> rLengths;   //remaining lengths after each vertex
     public List<Ray> rays;
-    //public List<RaycastHit> hits;  //hit of each raycast
     public List<GameObject> vertexes;
     private LayerMask mask;
 
@@ -65,10 +64,11 @@ public class LaserBeam : MonoBehaviour
         beam.SetPosition(0,beamGO.transform.position);
 
         ShootBeam(1);
-        for(int i = rays.Count; i < vertexes.Count; i++){
+        for(int i = (rays.Count-1); i < vertexes.Count; i++){
             Destroy(vertexes[i]);
         }
-        vertexes = new List<GameObject>(vertexes.GetRange(0,Mathf.Min(vertexes.Count, rays.Count)));
+        vertexes = new List<GameObject>(vertexes.GetRange(0,Mathf.Min(vertexes.Count, rays.Count-1)));
+
     }//end ShootBeam(float length)
 
     public void ShootBeam(int startPos){
@@ -106,8 +106,8 @@ public class LaserBeam : MonoBehaviour
         beam.positionCount++;
         beam.SetPosition(numPoint,nextRay.origin);
         rLengths.Add(length);
-        if(numPoint < vertexes.Count){
-            vertexes[numPoint-1].transform.position = nextRay.origin;
+        if(numPoint <= vertexes.Count){
+           vertexes[numPoint-1].transform.position = nextRay.origin;
         }else{
             GameObject vertex = Instantiate(lVGOPrefab, nextRay.origin, Quaternion.identity, beamGO.transform);
             vertex.tag = "Laser";

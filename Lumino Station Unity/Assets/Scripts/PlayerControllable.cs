@@ -49,10 +49,9 @@ public class PlayerControllable : MonoBehaviour
     }
 
     void Update(){
-        if (!interactable && gameController.GetComponent<PlayerControls>().selectedObject == gameObject){
-            indicator.SetActive(false);
-            gameController.GetComponent<PlayerControls>().SelectedObject(null);
+if(hoverOver && interactable){
+            SetHalo(true);
+        }else if (gameController.GetComponent<PlayerControls>().selectedObject != gameObject){SetHalo(false);}
         }
-    }
 
 }

@@ -65,6 +65,10 @@ public class LaserBeam : MonoBehaviour
         beam.SetPosition(0,beamGO.transform.position);
 
         ShootBeam(1);
+        for(int i = rays.Count; i < vertexes.Count; i++){
+            Destroy(vertexes[i]);
+        }
+        vertexes = new List<GameObject>(vertexes.GetRange(0,Mathf.Min(vertexes.Count, rays.Count)));
     }//end ShootBeam(float length)
 
     public void ShootBeam(int startPos){
@@ -110,7 +114,6 @@ public class LaserBeam : MonoBehaviour
             vertexes.Add(vertex);
         }
         if(collide && CheckCollisionType(hit) == "Reflective"){ //check if surface is reflective
-            
             BeamFire(numPoint+1);//Recurses ShootBeam at next point
         }//end if(CheckCollisionType(hit) == "Reflective")
     }//end BeamFire(int numPoint)
@@ -145,29 +148,8 @@ public class LaserBeam : MonoBehaviour
             case (GameManager.gameStates.Idle):
                 break;
             case (GameManager.gameStates.LevelWin):
-                WinLazer();
                 break;
         }
     }
 
-    public void WinLazer()
-    {
-        GameObject beamWinGO = new GameObject("Laser");
-        beamWinGO.tag = "Laser";
-        beamWinGO.transform.SetParent(this.transform);
-        beamWinGO.transform.localPosition = localOffset;
-
-        //creates the linerenderer for the visible laser beam
-        LineRenderer beamWin = beamWinGO.AddComponent<LineRenderer>() as LineRenderer;
-        beamWin.material = beamMaterialWin;
-        beamWin.startWidth = beamWidth*2;
-        WinLazerShoot(0,beamWin);
-    }
-
-    private void WinLazerShoot(int currentRay, LineRenderer beam)
-    {
-        beam.positionCount++;
-        
-
-    }
 }

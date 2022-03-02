@@ -11,10 +11,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerControls : MonoBehaviour
-{   public float rotateSpeed = 1;
+public class PlayerControls : MonoBehaviour{
     public GameObject selectedObject;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -34,7 +32,7 @@ public class PlayerControls : MonoBehaviour
                 Vector3 mouseScreen = Input.mousePosition;
                 mouseScreen.z = -Camera.main.transform.position.z;
                 Vector3 mouseWorld = Camera.main.ScreenToWorldPoint(mouseScreen);
-                Vector3 mouseDelay = Vector3.Lerp(selectedObject.transform.position + selectedObject.transform.forward,mouseWorld,rotateSpeed);
+                Vector3 mouseDelay = Vector3.Lerp(selectedObject.transform.position + selectedObject.transform.forward,mouseWorld,.95f);
                 selectedObject.transform.LookAt(mouseDelay);
             }
         }

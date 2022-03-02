@@ -25,13 +25,12 @@ public class LaserDetection : MonoBehaviour
     public bool laserLit = false;
     public bool wasLit = false;
     private MeshRenderer mesh;
-    
+    private GameObject currentCollision;
     // Start is called before the first frame update
     void Start()
     { 
         mesh = gameObject.GetComponent(typeof(MeshRenderer)) as MeshRenderer;
         mesh.material = unlitMat;
-        
     }
 
     // Update is called once per frame
@@ -40,22 +39,25 @@ public class LaserDetection : MonoBehaviour
     }
 
     void OnTriggerEnter(Collider other){
-        if(other.gameObject.tag == "Laser"){
+        if(other.gameObject.tag == "Laser" && currentCollision == null){
             laserLit = true;
             wasLit = true;
             if(selectable){
             gameObject.GetComponent<PlayerControllable>().interactable = true;
             }
             UpdateMat();
+            currentCollision = other.gameObject;
         }
     }
 
     void OnTriggerExit(Collider other){
-        if (other.gameObject.tag == "Laser"){
+        if(other.gameObject.tag == "Laser" && other.gameObject == currentCollision){
+            Debug.Log("Oy!");
             if(selectable){
             gameObject.GetComponent<PlayerControllable>().interactable = false;
             }
             laserLit = false;
+            currentCollision = null;
             UpdateMat();
         }
     }

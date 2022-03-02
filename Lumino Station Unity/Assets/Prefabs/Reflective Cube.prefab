@@ -111,7 +111,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unlitMat: {fileID: 2100000, guid: 170a6b72bff3a2e448bf8276dc4b5e40, type: 2}
-  litMat: {fileID: 2100000, guid: a3446521a08d029449c8b0fd26b7d33e, type: 2}
+  litMat: {fileID: 2100000, guid: 1cb26ebce65d0844cb7642068ce75b0b, type: 2}
   shadowMat: {fileID: 2100000, guid: 517aa603fbbe78b45838e4a2e727f069, type: 2}
   selectable: 1
   laserLit: 0
@@ -145,7 +145,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hoverOver: 0
-  interactable: 1
+  interactable: 0
   indicatorPrefab: {fileID: 1123504377163381887, guid: 7d98ffff73d0e424d8c77ad4a98107e9, type: 3}
   movingObject: {fileID: 0}
   rotatable: 0

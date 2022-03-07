@@ -3,7 +3,7 @@
  * Created: 02/19/2022
  * 
  * Last Edited By: Aidan Pohl
- * Last Edited: 3/02/2022
+ * Last Edited: 3/07/2022
  * 
  * Description: Laser Beam propogation
  *
@@ -64,9 +64,14 @@ public class LaserBeam : MonoBehaviour
         beam.SetPosition(0,beamGO.transform.position);
 
         ShootBeam(1);
+        //moves extra vertices away and destroys them
         for(int i = (rays.Count-1); i < vertexes.Count; i++){
+            Vector3 pos = vertexes[i].transform.position;
+            pos.z += 100;
+            vertexes[i].transform.position = pos;
             Destroy(vertexes[i]);
         }
+        //trims vertexes
         vertexes = new List<GameObject>(vertexes.GetRange(0,Mathf.Min(vertexes.Count, rays.Count-1)));
 
     }//end ShootBeam(float length)
@@ -106,13 +111,15 @@ public class LaserBeam : MonoBehaviour
         beam.positionCount++;
         beam.SetPosition(numPoint,nextRay.origin);
         rLengths.Add(length);
+
         if(numPoint <= vertexes.Count){
            vertexes[numPoint-1].transform.position = nextRay.origin;
         }else{
             GameObject vertex = Instantiate(lVGOPrefab, nextRay.origin, Quaternion.identity, beamGO.transform);
             vertex.tag = "Laser";
             vertexes.Add(vertex);
-        }
+        }//end if else
+
         if(collide && CheckCollisionType(hit) == "Reflective"){ //check if surface is reflective
             BeamFire(numPoint+1);//Recurses ShootBeam at next point
         }//end if(CheckCollisionType(hit) == "Reflective")
@@ -126,19 +133,12 @@ public class LaserBeam : MonoBehaviour
         }//end if else
     }//end CheckCollisionType(RaycastHit hit)
 
-    //Update line renderer positions
-    public void UpdatePositions(){
-        int num = 0;
-        foreach (Ray ray in rays){
-            beam.SetPosition(num,ray.origin);
-        }//end for each (Vector3 pos in points)
-    }//end UpdatePositions
-
 
     public void Awake(){
         mask = ~LayerMask.GetMask("Ignore Raycast");
         MakeBeam();
-    }
+    }//end Awake()
+
     public void Update(){
         switch (GameManager.gameState)
         {
@@ -149,7 +149,7 @@ public class LaserBeam : MonoBehaviour
                 break;
             case (GameManager.gameStates.LevelWin):
                 break;
-        }
-    }
+        }//end switch case
+    }//end Update()
 
 }

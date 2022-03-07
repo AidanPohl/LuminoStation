@@ -3,7 +3,7 @@
  * Created: 02/19/2022
  * 
  * Last Edited By: Aidan Pohl
- * Last Edited: 03/03/2022
+ * Last Edited: 03/07/2022
  * 
  * Description: Laser Beam Detection
  *
@@ -31,12 +31,7 @@ public class LaserDetection : MonoBehaviour
     { 
         mesh = gameObject.GetComponent(typeof(MeshRenderer)) as MeshRenderer;
         mesh.material = unlitMat;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-    }
+    }//end Start()
 
     void OnTriggerEnter(Collider other){
         if(other.gameObject.tag == "Laser" && currentCollision == null){
@@ -44,31 +39,27 @@ public class LaserDetection : MonoBehaviour
             wasLit = true;
             if(selectable){
             gameObject.GetComponent<PlayerControllable>().interactable = true;
-            }
+            }//end if(selectable)
             UpdateMat();
             currentCollision = other.gameObject;
-        }
-    }
+        }//end if(other.gameObject.tag == "Laser" && currentCollision == null)
+    }//end OnTriggerEnter
 
     void OnTriggerExit(Collider other){
         if(other.gameObject.tag == "Laser" && other.gameObject == currentCollision){
             Debug.Log("Oy!");
             if(selectable){
             gameObject.GetComponent<PlayerControllable>().interactable = false;
-            }
+            }//end if(selectable)
             laserLit = false;
             currentCollision = null;
             UpdateMat();
-        }
-    }
+        }//end if(other.gameObject.tag == "Laser" && other.gameObject == currentCollision)
+    }//end OnTriggerExit
 
     private void UpdateMat(){
         if (laserLit){
             mesh.material = litMat;
-        } else if (wasLit){
-            mesh.material = shadowMat;
-        } else {
-            mesh.material = unlitMat;
-        }
-    }
+        }//end ifelse
+    }//end UpdateMat()
 }

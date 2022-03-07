@@ -68,9 +68,10 @@ private static string thisDate = System.DateTime.Now.ToString("yyyy"); //todays 
     CheckGameManagerIsInScene();
 
     currentScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex;
-    UnityEngine.Debug.Log(currentScene);
+
+        //Checks for BestTime in Player pref
         if (PlayerPrefs.HasKey("BestHours"))
-        {                               // b
+        {
             bestHours = PlayerPrefs.GetInt("BestHours");
             bestMins = PlayerPrefs.GetInt("BestMins");
             bestSecs = PlayerPrefs.GetInt("BestSecs");
@@ -129,9 +130,6 @@ public void NextLevel(){
 public void StartScreen(){
     SceneManager.LoadScene(startString);
     gameState=gameStates.StartScreen;
-}
+}//end StartScreen()
 
-public void ControlsScreen(){
-    SceneManager.LoadScene("Controls");
-}
 }

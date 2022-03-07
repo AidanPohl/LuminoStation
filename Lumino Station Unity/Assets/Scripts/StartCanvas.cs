@@ -2,8 +2,8 @@
  * Created By: Aidan Pohl
  * Created: 03/06/2022
  * 
- * Last Edited By: N/A
- * Last Edited: N/A
+ * Last Edited By: Aidan Pohl
+ * Last Edited: 03/07/2022
  * 
  * Description: Update global text in start canvas
  * */
@@ -28,13 +28,13 @@ public class StartCanvas : MonoBehaviour
         titleTextBox.text = gm.gameTitle;
         creditsTextBox.text = gm.gameCredits;
         copyrightTextBox.text = gm.copywriteDate;
-    }
+    }//end Start()
 
     public void StartGame(){
         gm.StartGame();
-    }
+    }//end StartGame()
 
     public void ExitGame(){
         gm.ExitGame();
-    }
+    }//end ExitGame()
 }

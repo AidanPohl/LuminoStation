@@ -3,7 +3,7 @@
  * Created: 02/20/2022
  * 
  * Last Edited By: Aidan Pohl
- * Last Edited: 03/06/2022
+ * Last Edited: 03/07/2022
  * 
  * Description: Player Controller script
  * */
@@ -25,20 +25,20 @@ public class PlayerControllable : MonoBehaviour
         gameController = GameObject.Find("_GameManager");
         indicator = Instantiate(indicatorPrefab, gameObject.transform.position, Quaternion.identity, gameObject.transform);
         indicator.SetActive(false);
-    }
+    }//end Start()
 
     void OnMouseDown(){
         if (hoverOver && interactable)
         gameController.GetComponent<PlayerControls>().SelectedObject(gameObject);
-    }
+    }//end OnMouseDown()
 
     void OnMouseEnter (){
         hoverOver = true;
-    }
+    }//end OnMouseEnter()
 
     void OnMouseExit(){
         hoverOver = false;
-    }
+    }//end OnMouseExit()
 
     public void SetHalo(bool halo){
         if(halo){
@@ -46,12 +46,14 @@ public class PlayerControllable : MonoBehaviour
         } else{
             indicator.SetActive(false);
         }
-    }
+    }//end SetHalo(bool Halo)
 
     void Update(){
-if(hoverOver && interactable){
+        if(hoverOver && interactable){
             SetHalo(true);
-        }else if (gameController.GetComponent<PlayerControls>().selectedObject != gameObject){SetHalo(false);}
-        }
+        }else if (gameController.GetComponent<PlayerControls>().selectedObject != gameObject){
+            SetHalo(false);
+        }//end if else()
+    }//end Update()
 
 }

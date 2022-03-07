@@ -1,9 +1,9 @@
 /**
  * Created By: Aidan Pohl
- * Created: 03/07/2022
+ * Created: 03/06/2022
  * 
- * Last Edited By: N/A
- * Last Edited: N/A
+ * Last Edited By: Aidan Pohl
+ * Last Edited: 03/07/2022
  * 
  * Description: Update global text in end screen canvas
  * */
@@ -36,14 +36,14 @@ public class EndCanvas : MonoBehaviour
             PlayerPrefs.SetInt("BestSecs", winTime.Seconds);
         }else{//Slower than BestTime
             highscore.text = "Best time is " + GameManager.BestTime.Duration().ToString(@"hh\:mm\:ss");
-        }
-    }
+        }//end if else
+    }//end Start()
 
     public void StartScreen(){
         gm.StartScreen();
-    }
+    }//end StartScreen()
 
     public void ExitGame(){
         gm.ExitGame();
-    }
+    }//end ExitGame()
 }

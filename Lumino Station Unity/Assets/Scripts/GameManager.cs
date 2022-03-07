@@ -3,13 +3,15 @@
  * Created: 02/23/2022
  * 
  * Last Edited By: Aidan Pohl
- * Last Edited: 03/06/2022
+ * Last Edited: 03/07/2022
  * 
  * Description: Game Managaer
  * */
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Runtime;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -56,13 +58,29 @@ public static int currentScene = 0; //the current level id
 [HideInInspector] public static Stopwatch timer = new Stopwatch();
 private static string thisDate = System.DateTime.Now.ToString("yyyy"); //todays date as string
 
-/***Methods***/
-void Awake(){
+//Best time in three parts
+[HideInInspector] public static int bestHours = 99;
+[HideInInspector] public static int bestMins = 59;
+[HideInInspector] public static int bestSecs = 59;
+[HideInInspector] public static TimeSpan BestTime;
+    /***Methods***/
+    void Awake(){
     CheckGameManagerIsInScene();
 
     currentScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex;
     UnityEngine.Debug.Log(currentScene);
-}//end Awake()
+        if (PlayerPrefs.HasKey("BestHours"))
+        {                               // b
+            bestHours = PlayerPrefs.GetInt("BestHours");
+            bestMins = PlayerPrefs.GetInt("BestMins");
+            bestSecs = PlayerPrefs.GetInt("BestSecs");
+        }
+        // Assign the high score to HighScore
+        PlayerPrefs.SetInt("BestHours", bestHours);
+        PlayerPrefs.SetInt("BestMins", bestMins);
+        PlayerPrefs.SetInt("BestSecs", bestSecs);
+        BestTime =  new TimeSpan(bestHours, bestMins, bestSecs);
+    }//end Awake()
 
 void Update(){
     UnityEngine.Debug.Log(gameState);

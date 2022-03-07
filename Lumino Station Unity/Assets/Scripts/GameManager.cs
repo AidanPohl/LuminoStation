@@ -3,12 +3,13 @@
  * Created: 02/23/2022
  * 
  * Last Edited By: Aidan Pohl
- * Last Edited: 03/02/2022
+ * Last Edited: 03/06/2022
  * 
  * Description: Game Managaer
  * */
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -20,30 +21,22 @@ public class GameManager : MonoBehaviour
     static public GameManager GM  { get {   return gm;  }   }//public access to Game manager
 
     void CheckGameManagerIsInScene(){
-        if (gm ==null){
+        if (gm == null){
             gm = this;
         }else{
             Destroy(this.gameObject);
-        }
-
+        }//end if else
         DontDestroyOnLoad(this); //Do not destroy the game manager when new scene is loaded
-            }
+    }//end CheckGameManagerIsInScene()
     
     #endregion
 
 [Header("General Settings")]
-public string  gameTitle = "Lumino Station";
+public string gameTitle = "Lumino Station";
 public string gameCredits = "Made by: Aidan Pohl";
-public string copyrightDate = "Copyright " + thisDate;
+public string copywriteDate = "Copyright " + thisDate;
 
 [Header("Game Settings")]
-
-[Tooltip("Is the level timed?")]
-public bool isTimed = false;//
-public int timeLimit = 0;
-
-static private int time = 0;
-
 [Header("Scene Settings")]
 [Tooltip("Name of start scene")]
 public string startString;
@@ -59,11 +52,8 @@ private int gameLevelsCount;
 public static int currentScene = 0; //the current level id
 
 [HideInInspector] public enum gameStates {Idle,Playing,StartScreen,LevelWin,GameWin};//enum of game states
-[HideInInspector] public static gameStates gameState = gameStates.Idle; //curent gamestate
-
-private float currentTime;
-private bool gameStarted = false;
-
+[HideInInspector] public static gameStates gameState = gameStates.StartScreen; //curent gamestate
+[HideInInspector] public static Stopwatch timer = new Stopwatch();
 private static string thisDate = System.DateTime.Now.ToString("yyyy"); //todays date as string
 
 /***Methods***/
@@ -71,52 +61,59 @@ void Awake(){
     CheckGameManagerIsInScene();
 
     currentScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex;
-    Debug.Log(currentScene);
-        gameState = gameStates.Playing;
+    UnityEngine.Debug.Log(currentScene);
 }//end Awake()
 
 void Update(){
+    UnityEngine.Debug.Log(gameState);
     if(Input.GetKey("escape")){ExitGame();} //esc key to exit game
 
     if(nextLevel){NextLevel();} // move to next level 
-
-    //if we are playing the game
-    if(gameState == gameStates.Playing){
-
-    } else if (gameState == gameStates.LevelWin)
-    {
+    if (gameState == gameStates.LevelWin){
             Invoke("NextLevel", 5);
             gameState = gameStates.Idle;
-    }
-}
+    }//end if else()
+}//end Update
+
 public void StartGame(){
     gameLevelsCount = 0;
-    SceneManager.LoadScene(gameLevels[gameLevelsCount]); //load first level
     gameState = gameStates.Playing;//playing game state
+    timer = Stopwatch.StartNew();
+    SceneManager.LoadScene(gameLevels[gameLevelsCount]); //load first level
+
 }//end StartGame();
 
 public void ExitGame(){
     Application.Quit();
-    Debug.Log("Exited Game");
-}
+    UnityEngine.Debug.Log("Exited Game");
+}//end ExitGame
 
 public void GameEnd(){
     gameState = gameStates.GameWin;//game end state
+    timer.Stop();
     SceneManager.LoadScene(endScene);
-    Debug.Log("Game End Scene");
-}
+    UnityEngine.Debug.Log("Game End Scene");
+}//end GameEnd()
 
 public void NextLevel(){
-        Debug.Log("level complete");
+    UnityEngine.Debug.Log("level complete");
     nextLevel = false;
-    if(gameLevelsCount <= gameLevels.Length){
+    if(gameLevelsCount < gameLevels.Length-1){
         gameLevelsCount++;
         SceneManager.LoadScene(gameLevels[gameLevelsCount]);
-    }
-}
-    public void EndLevel()
-    {
-        //GameObject.Find("LazerPointer").GetComponent<LaserBeam>().GreenLaser();
-    }
+        gameState = gameStates.Playing;
+        timer.Start();
+    }else{
+        GameEnd();
+    }//end if else
+}//End NextLevel()
 
+public void StartScreen(){
+    SceneManager.LoadScene(startString);
+    gameState=gameStates.StartScreen;
+}
+
+public void ControlsScreen(){
+    SceneManager.LoadScene("Controls");
+}
 }

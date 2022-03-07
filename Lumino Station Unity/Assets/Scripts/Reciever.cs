@@ -21,6 +21,7 @@ public class Reciever : MonoBehaviour
         {
             Islit = true;
             GameManager.gameState = GameManager.gameStates.LevelWin;
+            GameManager.timer.Stop();
         }
     }
 }

@@ -15,14 +15,23 @@ using UnityEngine;
 public class Reciever : MonoBehaviour
 {
     public bool Islit;
+    public WinCheck check;
 
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Laser")//Laser is hitting reciever AKA level is WIN!!!
         {
             Islit = true;
-            GameManager.gameState = GameManager.gameStates.LevelWin;
-            GameManager.timer.Stop();
+            check.fulfilled = true;
         }//end if (other.gameObject.tag == "Laser")
     }//end OnTriggerEnter
+
+    private void OnTriggerExit(Collider other)
+    {
+        if(other.gameObject.tag == "Laser")//Laser is no longer hitting reciever AKA level is no longer WIN
+        {
+            Islit = false;
+            check.fulfilled = false;
+        }
+    }
 }

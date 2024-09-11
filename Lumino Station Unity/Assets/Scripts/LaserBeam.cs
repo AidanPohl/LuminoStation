@@ -18,10 +18,11 @@ public class LaserBeam : MonoBehaviour
     /***Variables***/
     [Header("Set In Inspector")]
     public float beamStrength = 100f; //Total length of beam
+    public float diffraction = 1; //how much the beam should expand
     public Vector3 localOffset = (Vector3.zero); //0 by default
     public Material beamMaterial;
     public Material beamMaterialWin;
-    public float beamWidth =.1f;
+    public float beamWidth =.2f;
     public GameObject lVGOPrefab;
     [Header("Set Dynamically")]
     public GameObject beamGO;
@@ -30,6 +31,8 @@ public class LaserBeam : MonoBehaviour
     public List<Ray> rays;
     public List<GameObject> vertexes;
     private LayerMask mask;
+
+    private float beamLength = 0;
 
     //creates a new Beam gameobject with line renderer
     public void MakeBeam(){
@@ -43,6 +46,10 @@ public class LaserBeam : MonoBehaviour
         beam = beamGO.AddComponent<LineRenderer>() as LineRenderer;
         beam.material = beamMaterial;
         beam.startWidth = beamWidth;
+        beam.endWidth = 1f;
+        beam.numCornerVertices = 10;
+        beam.numCapVertices = 10;
+
 
         //creates lists for the beam creation and propogation
         rLengths = new List<float>();
@@ -150,6 +157,12 @@ public class LaserBeam : MonoBehaviour
             case (GameManager.gameStates.LevelWin):
                 break;
         }//end switch case
+        beamLength = 0;
+        foreach(float length in rLengths)
+        {
+            beamLength += length;
+        }
+        beam.widthMultiplier = (diffraction/1000) * beamLength;
     }//end Update()
 
 }
